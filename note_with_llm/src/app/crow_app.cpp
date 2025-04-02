@@ -18,7 +18,6 @@ namespace banchoo::app
 
 void CrowApp::configure(const nlohmann::json &config)
 {
-
     repo_ = repository::RepositoryFactory::create(config["repository"]);
 
     this->setPort(config["port"].get<uint32_t>());

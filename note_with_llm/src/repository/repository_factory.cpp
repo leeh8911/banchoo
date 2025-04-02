@@ -19,7 +19,6 @@ namespace banchoo::repository
 
 std::shared_ptr<IRepository> RepositoryFactory::create(const nlohmann::json &config)
 {
-
     auto type = config["type"].get<std::string>();
 
     if (type == "inmemory")
