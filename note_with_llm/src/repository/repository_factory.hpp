@@ -8,6 +8,8 @@
 #include <memory>
 #include <string_view>
 
+#include <third_party/nlohmann/json.hpp>
+
 #include "repository/repository_interface.hpp"
 
 namespace banchoo::repository
@@ -15,6 +17,6 @@ namespace banchoo::repository
 class RepositoryFactory
 {
   public:
-    static std::shared_ptr<IRepository> create(std::string_view type);
+    static std::shared_ptr<IRepository> create(const nlohmann::json &config);
 };
 } // namespace banchoo::repository

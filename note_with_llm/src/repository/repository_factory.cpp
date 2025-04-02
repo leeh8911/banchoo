@@ -9,14 +9,19 @@
 #include <memory>
 #include <string_view>
 
+#include <third_party/nlohmann/json.hpp>
+
 #include "repository/inmemory_repository.hpp"
 #include "repository/repository_interface.hpp"
 
 namespace banchoo::repository
 {
 
-std::shared_ptr<IRepository> RepositoryFactory::create(std::string_view type)
+std::shared_ptr<IRepository> RepositoryFactory::create(const nlohmann::json &config)
 {
+
+    auto type = config["type"].get<std::string>();
+
     if (type == "inmemory")
     {
         return std::make_shared<InMemoryRepository>();

@@ -8,6 +8,8 @@
 #include <memory>
 #include <string_view>
 
+#include <third_party/nlohmann/json.hpp>
+
 #include "app/app_interface.hpp"
 #include "app/crow_app.hpp"
 
@@ -16,6 +18,6 @@ namespace banchoo::app
 class AppFactory
 {
   public:
-    static std::shared_ptr<IApp> create(std::string_view type);
+    static std::shared_ptr<IApp> create(const nlohmann::json &config);
 };
 } // namespace banchoo::app
