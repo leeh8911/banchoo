@@ -4,8 +4,8 @@
  * Licensed under the MIT License.
  */
 
-#include <third_party/crow_all.h>
-#include <third_party/nlohmann/json.hpp>
+#include <crow_all.h>
+#include <nlohmann/json.hpp>
 
 #include "app/crow_app.hpp"
 #include "note/note.hpp"

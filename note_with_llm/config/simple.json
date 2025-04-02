@@ -1,4 +1,5 @@
 {
+    "log_level": "trace",
     "app": {
         "type": "crow",
         "port": 18080,

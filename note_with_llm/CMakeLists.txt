@@ -43,6 +43,8 @@ target_include_directories(${PROJECT_SERVER}
     PRIVATE
         ${PROJECT_SOURCE_DIR}
         ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_SOURCE_DIR}/third_party/
+        ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
 )
 
 

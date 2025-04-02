@@ -9,7 +9,7 @@
 #include <memory>
 #include <string_view>
 
-#include <third_party/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "repository/inmemory_repository.hpp"
 #include "repository/repository_interface.hpp"
