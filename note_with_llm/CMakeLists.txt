@@ -8,6 +8,7 @@ set(CONFIG_TYPE "simple" CACHE STRING "Config type (simple, test, runtime)")
 set_property(CACHE CONFIG_TYPE PROPERTY STRINGS simple test runtime)
 message(STATUS "Selected config: ${CONFIG_TYPE}.json")
 
+
 # 경로 설정
 set(CONFIG_SRC "${CMAKE_SOURCE_DIR}/config/${CONFIG_TYPE}.json")
 set(CONFIG_DST "${CMAKE_BINARY_DIR}/config.json")
@@ -47,11 +48,31 @@ target_include_directories(${PROJECT_SERVER}
         ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
 )
 
-
-
 configure_file(${CONFIG_SRC} ${CONFIG_DST} COPYONLY)
 
 
 # main executable이 실행되기 전에 복사되도록 연결
 add_custom_target(copy_config ALL DEPENDS ${CONFIG_DST})
 add_dependencies(${PROJECT_SERVER} copy_config)
+
+if (CONFIG_TYPE STREQUAL "test")
+    # test executable
+    set(PROJECT_TEST ${PROJECT_NAME}_test)
+    add_executable(${PROJECT_TEST}
+        test/main.cpp
+        test/test_inmemory_repository.cpp
+        ${SERVER_SRC}
+    )
+
+    target_include_directories(${PROJECT_TEST}
+        PRIVATE
+            ${PROJECT_SOURCE_DIR}
+            ${PROJECT_SOURCE_DIR}/src
+            ${PROJECT_SOURCE_DIR}/third_party/
+            ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
+            ${PROJECT_SOURCE_DIR}/third_party/doctest
+    )
+
+    target_link_libraries(${PROJECT_TEST} PRIVATE Threads::Threads)
+    add_dependencies(${PROJECT_TEST} copy_config)
+endif()
