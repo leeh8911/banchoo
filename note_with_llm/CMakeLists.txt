@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SERVER_SRC 
+    ${PROJECT_SOURCE_DIR}/src/app/app_factory.cpp 
     ${PROJECT_SOURCE_DIR}/src/app/crow_app.cpp 
     ${PROJECT_SOURCE_DIR}/src/repository/inmemory_repository.cpp
     ${PROJECT_SOURCE_DIR}/src/repository/repository_factory.cpp

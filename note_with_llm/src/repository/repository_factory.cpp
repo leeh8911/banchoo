@@ -25,7 +25,7 @@ std::shared_ptr<IRepository> RepositoryFactory::create(std::string_view type)
     {
         throw std::invalid_argument("Invalid repository type");
     }
-    return std::make_shared<InMemoryRepository>();
+    return nullptr;
 }
 
 } // namespace banchoo::repository
