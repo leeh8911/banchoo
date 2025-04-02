@@ -9,23 +9,32 @@
 #include <memory>
 #include <string_view>
 
+#include <third_party/nlohmann/json.hpp>
+
 #include "app/app_interface.hpp"
 #include "app/crow_app.hpp"
 
 namespace banchoo::app
 {
 
-std::shared_ptr<IApp> AppFactory::create(std::string_view type)
+std::shared_ptr<IApp> AppFactory::create(const nlohmann::json &config)
 {
+    auto type = config["type"].get<std::string>();
+
+    std::shared_ptr<IApp> app = nullptr;
+
     if (type == "crow")
     {
-        return std::make_shared<CrowApp>();
+        app = std::make_shared<CrowApp>();
     }
     else
     {
         throw std::invalid_argument("Invalid app type");
     }
-    return nullptr;
+
+    app->configure(config);
+
+    return app;
 }
 
 } // namespace banchoo::app

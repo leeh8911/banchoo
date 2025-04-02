@@ -3,6 +3,7 @@
  * This file is part of the Banchoo Project.
  * Licensed under the MIT License.
  */
+
 #include <third_party/crow_all.h>
 #include <third_party/nlohmann/json.hpp>
 
@@ -15,9 +16,12 @@ using json = nlohmann::json;
 namespace banchoo::app
 {
 
-void CrowApp::configure()
+void CrowApp::configure(const nlohmann::json &config)
 {
-    repo_ = repository::RepositoryFactory::create("inmemory");
+    repo_ = repository::RepositoryFactory::create(config["repository"]);
+
+    this->setPort(config["port"].get<uint32_t>());
+    this->setBindAddr(config["bindaddr"].get<std::string>());
 
     CROW_ROUTE(app_, "/notes").methods("POST"_method)([this](const crow::request &req) {
         auto body = json::parse(req.body);
@@ -39,7 +43,7 @@ void CrowApp::configure()
 
 void CrowApp::run()
 {
-    app_.port(18080).bindaddr("0.0.0.0").multithreaded().run();
+    app_.port(this->getPort()).bindaddr(this->getBindAddr()).multithreaded().run();
 }
 
 } // namespace banchoo::app
