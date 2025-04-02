@@ -8,14 +8,14 @@
 #include <optional>
 #include <vector>
 
-#include "note.h"
+#include "note/note.h"
 
 namespace banchoo::repository
 {
-class Repository
+class IRepository
 {
   public:
-    virtual ~Repository() = default;
+    virtual ~IRepository() = default;
 
     virtual note::Id createNote(const note::Note &note) = 0;
     virtual std::optional<note::Note> getNote(note::Id id) const = 0;
