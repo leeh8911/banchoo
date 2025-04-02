@@ -8,7 +8,7 @@
 
 #include "app/crow_app.hpp"
 #include "note/note.hpp"
-#include "repository/inmemory_repository.hpp"
+#include "repository/repository_factory.hpp"
 
 using json = nlohmann::json;
 
@@ -17,7 +17,7 @@ namespace banchoo::app
 
 void CrowApp::configure()
 {
-    repo_ = std::make_unique<repository::InMemoryRepository>();
+    repo_ = repository::RepositoryFactory::create("inmemory");
 
     CROW_ROUTE(app_, "/notes").methods("POST"_method)([this](const crow::request &req) {
         auto body = json::parse(req.body);

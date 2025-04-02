@@ -5,25 +5,16 @@
  */                                                                                                                    \
 #pragma once
 
-#include <third_party/crow_all.h>
-
 #include <memory>
+#include <string_view>
 
-#include "app/app_interface.hpp"
 #include "repository/repository_interface.hpp"
 
-namespace banchoo::app
+namespace banchoo::repository
 {
-
-class CrowApp : public IApp
+class RepositoryFactory
 {
   public:
-    void configure() override;
-    void run() override;
-
-  private:
-    crow::SimpleApp app_;
-    std::shared_ptr<repository::IRepository> repo_;
+    static std::shared_ptr<IRepository> create(std::string_view type);
 };
-
-} // namespace banchoo::app
+} // namespace banchoo::repository

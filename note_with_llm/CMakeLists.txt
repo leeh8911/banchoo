@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SERVER_SRC 
     ${PROJECT_SOURCE_DIR}/src/app/crow_app.cpp 
     ${PROJECT_SOURCE_DIR}/src/repository/inmemory_repository.cpp
+    ${PROJECT_SOURCE_DIR}/src/repository/repository_factory.cpp
 )
 
 # 실행 파일 이름
