@@ -4,14 +4,17 @@
  * Licensed under the MIT License.
  */
 
-#include <third_party/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "app/app_factory.hpp"
+#include "common/logger.hpp"
 
 int main()
 {
     std::ifstream ifs("config.json");
     nlohmann::json config = nlohmann::json::parse(ifs);
+
+    banchoo::Logger::init(config["log_level"]); // 로거 초기화
 
     auto app = banchoo::app::AppFactory::create(config["app"]);
 

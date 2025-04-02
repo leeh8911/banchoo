@@ -9,7 +9,7 @@
 #include <memory>
 #include <string_view>
 
-#include <third_party/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 #include "app/app_interface.hpp"
 #include "app/crow_app.hpp"

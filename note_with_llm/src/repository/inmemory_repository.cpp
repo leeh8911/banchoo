@@ -10,6 +10,7 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "common/logger.hpp"
 #include "note/note.hpp"
 
 namespace banchoo::repository
@@ -17,6 +18,8 @@ namespace banchoo::repository
 
 note::Id InMemoryRepository::createNote(const note::Note &note)
 {
+    BANCHOO_DEBUG("Create note: {}", note.content);
+
     std::lock_guard<std::mutex> lock(mutex_);
     note::Note new_note = note;
     new_note.id = next_id_++;

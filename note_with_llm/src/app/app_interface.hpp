@@ -6,9 +6,10 @@
 
 #pragma once
 
-#include <string>
+#include <memory>
 
-#include <third_party/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
+
 namespace banchoo::app
 {
 

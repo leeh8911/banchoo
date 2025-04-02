@@ -7,8 +7,8 @@
 
 #include <memory>
 
-#include <third_party/crow_all.h>
-#include <third_party/nlohmann/json.hpp>
+#include <crow_all.h>
+#include <nlohmann/json.hpp>
 
 #include "app/app_interface.hpp"
 #include "repository/repository_interface.hpp"
