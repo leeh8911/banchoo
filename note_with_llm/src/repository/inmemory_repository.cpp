@@ -3,15 +3,14 @@
  * This file is part of the Banchoo Project.
  * Licensed under the MIT License.
  */
-#pragma once
 
-#include "repository/inmemory_repository.h"
-#include "repository/repository_interface.h"
+#include "repository/inmemory_repository.hpp"
+#include "repository/repository_interface.hpp"
 
 #include <mutex>
 #include <unordered_map>
 
-#include "note/note.h"
+#include "note/note.hpp"
 
 namespace banchoo::repository
 {

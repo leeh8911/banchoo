@@ -8,7 +8,7 @@
 #include <optional>
 #include <vector>
 
-#include "note/note.h"
+#include "note/note.hpp"
 
 namespace banchoo::repository
 {

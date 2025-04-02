@@ -8,7 +8,7 @@
 #include <mutex>
 #include <unordered_map>
 
-#include "repository/repository_interface.h"
+#include "repository/repository_interface.hpp"
 
 namespace banchoo::repository
 {
