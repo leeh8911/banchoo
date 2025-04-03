@@ -8,12 +8,12 @@
 #include <mutex>
 #include <unordered_map>
 
-#include "repository/repository_interface.hpp"
+#include "repository/base_repository.hpp"
 
 namespace banchoo::repository
 {
 
-class InMemoryRepository : public IRepository
+class InMemoryRepository : public BaseRepository
 {
   public:
     note::Id createNote(const note::Note &note) override;

@@ -5,7 +5,7 @@
  */
 
 #include "repository/inmemory_repository.hpp"
-#include "repository/repository_interface.hpp"
+#include "repository/base_repository.hpp"
 
 #include <mutex>
 #include <unordered_map>

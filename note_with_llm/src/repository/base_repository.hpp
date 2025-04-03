@@ -12,10 +12,10 @@
 
 namespace banchoo::repository
 {
-class IRepository
+class BaseRepository
 {
   public:
-    virtual ~IRepository() = default;
+    virtual ~BaseRepository() = default;
 
     virtual note::Id createNote(const note::Note &note) = 0;
 

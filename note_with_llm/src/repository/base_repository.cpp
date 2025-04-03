@@ -4,14 +4,14 @@
  * Licensed under the MIT License.
  */
 
-#include "repository/repository_interface.hpp"
+#include "repository/base_repository.hpp"
 
 #include "common/logger.hpp"
 #include "note/note.hpp"
 
 namespace banchoo::repository
 {
-note::Id IRepository::createMemo(const note::Note &note)
+note::Id BaseRepository::createMemo(const note::Note &note)
 {
     note::Note new_note = note;
     new_note.id = this->newId();
@@ -25,7 +25,7 @@ note::Id IRepository::createMemo(const note::Note &note)
     return this->createNote(new_note);
 }
 
-note::Id IRepository::createTask(const note::Note &note)
+note::Id BaseRepository::createTask(const note::Note &note)
 {
     BANCHOO_DEBUG("Create task: {}", note.content);
 
@@ -44,7 +44,7 @@ note::Id IRepository::createTask(const note::Note &note)
     return this->createNote(new_note);
 }
 
-note::Id IRepository::createEvent(const note::Note &note)
+note::Id BaseRepository::createEvent(const note::Note &note)
 {
     BANCHOO_DEBUG("Create event: {}", note.content);
 
@@ -60,7 +60,7 @@ note::Id IRepository::createEvent(const note::Note &note)
     return this->createNote(new_note);
 }
 
-note::Id IRepository::newId()
+note::Id BaseRepository::newId()
 {
     return next_id_++;
 }

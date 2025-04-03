@@ -11,13 +11,13 @@
 
 #include <nlohmann/json.hpp>
 
+#include "repository/base_repository.hpp"
 #include "repository/inmemory_repository.hpp"
-#include "repository/repository_interface.hpp"
 
 namespace banchoo::repository
 {
 
-std::shared_ptr<IRepository> RepositoryFactory::create(const nlohmann::json &config)
+std::shared_ptr<BaseRepository> RepositoryFactory::create(const nlohmann::json &config)
 {
     auto type = config["type"].get<std::string>();
 

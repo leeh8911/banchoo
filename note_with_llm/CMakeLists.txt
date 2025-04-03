@@ -26,7 +26,7 @@ set(SERVER_SRC
     ${PROJECT_SOURCE_DIR}/src/app/app_factory.cpp 
     ${PROJECT_SOURCE_DIR}/src/app/crow_app.cpp 
     ${PROJECT_SOURCE_DIR}/src/repository/inmemory_repository.cpp
-    ${PROJECT_SOURCE_DIR}/src/repository/repository_interface.cpp
+    ${PROJECT_SOURCE_DIR}/src/repository/base_repository.cpp
     ${PROJECT_SOURCE_DIR}/src/repository/repository_factory.cpp
 )
 
