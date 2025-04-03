@@ -11,7 +11,7 @@
 #include <nlohmann/json.hpp>
 
 #include "app/app_interface.hpp"
-#include "repository/repository_interface.hpp"
+#include "repository/base_repository.hpp"
 
 namespace banchoo::app
 {
@@ -24,7 +24,7 @@ class CrowApp : public IApp
 
   private:
     crow::SimpleApp app_;
-    std::shared_ptr<repository::IRepository> repo_;
+    std::shared_ptr<repository::BaseRepository> repo_;
 };
 
 } // namespace banchoo::app

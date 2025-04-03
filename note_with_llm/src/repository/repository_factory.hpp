@@ -10,13 +10,13 @@
 
 #include <nlohmann/json.hpp>
 
-#include "repository/repository_interface.hpp"
+#include "repository/base_repository.hpp"
 
 namespace banchoo::repository
 {
 class RepositoryFactory
 {
   public:
-    static std::shared_ptr<IRepository> create(const nlohmann::json &config);
+    static std::shared_ptr<BaseRepository> create(const nlohmann::json &config);
 };
 } // namespace banchoo::repository
