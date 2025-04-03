@@ -17,8 +17,12 @@ class InMemoryRepository : public IRepository
 {
   public:
     note::Id createNote(const note::Note &note) override;
+
     std::optional<note::Note> getNote(note::Id id) const override;
     std::vector<note::Note> getAllNotes() const override;
+    std::vector<note::Note> getAllMemos() const override;
+    std::vector<note::Note> getAllTasks() const override;
+    std::vector<note::Note> getAllEvents() const override;
     bool updateNote(const note::Note &note) override;
     bool deleteNote(note::Id id) override;
 

@@ -18,13 +18,10 @@ namespace banchoo::repository
 
 note::Id InMemoryRepository::createNote(const note::Note &note)
 {
-    BANCHOO_DEBUG("Create note: {}", note.content);
-
     std::lock_guard<std::mutex> lock(mutex_);
-    note::Note new_note = note;
-    new_note.id = next_id_++;
-    notes_[new_note.id] = new_note;
-    return new_note.id;
+    notes_[note.id] = note;
+
+    return note.id;
 }
 
 std::optional<note::Note> InMemoryRepository::getNote(note::Id id) const
@@ -49,6 +46,33 @@ std::vector<note::Note> InMemoryRepository::getAllNotes() const
     return all;
 }
 
+std::vector<note::Note> InMemoryRepository::getAllMemos() const
+{
+    auto all = getAllNotes();
+    all.erase(std::remove_if(all.begin(), all.end(),
+                             [](const note::Note &note) { return note.type != note::NoteType::MEMO; }),
+              all.end());
+
+    return all;
+}
+std::vector<note::Note> InMemoryRepository::getAllTasks() const
+{
+    auto all = getAllNotes();
+    all.erase(std::remove_if(all.begin(), all.end(),
+                             [](const note::Note &note) { return note.type != note::NoteType::TASK; }),
+              all.end());
+
+    return all;
+}
+std::vector<note::Note> InMemoryRepository::getAllEvents() const
+{
+    auto all = getAllNotes();
+    all.erase(std::remove_if(all.begin(), all.end(),
+                             [](const note::Note &note) { return note.type != note::NoteType::EVENT; }),
+              all.end());
+
+    return all;
+}
 bool InMemoryRepository::updateNote(const note::Note &note)
 {
     std::lock_guard<std::mutex> lock(mutex_);

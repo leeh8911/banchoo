@@ -1,22 +1,25 @@
 #include <doctest/doctest.h>
 
+#include "common/logger.hpp"
 #include "repository/inmemory_repository.hpp"
 
 TEST_CASE("InMemoryRepository")
 {
+    banchoo::Logger::init("trace"); // 로거 초기화
+
     banchoo::repository::InMemoryRepository repo;
 
     SUBCASE("createNote")
     {
         banchoo::note::Note n{.content = "Hello, World!"};
-        auto id = repo.createNote(n);
+        auto id = repo.createMemo(n);
         CHECK(id == 1);
     }
 
     SUBCASE("getNote")
     {
         banchoo::note::Note n{.content = "Hello, World!"};
-        auto id = repo.createNote(n);
+        auto id = repo.createMemo(n);
 
         auto result = repo.getNote(id);
         REQUIRE(result); // optional이 값 있는지 확인
@@ -27,8 +30,8 @@ TEST_CASE("InMemoryRepository")
     {
         banchoo::note::Note n1{.content = "Hello, World!"};
         banchoo::note::Note n2{.content = "Hello, C++!"};
-        repo.createNote(n1);
-        repo.createNote(n2);
+        repo.createMemo(n1);
+        repo.createMemo(n2);
 
         auto all = repo.getAllNotes();
         REQUIRE(all.size() == 2);
@@ -41,7 +44,7 @@ TEST_CASE("InMemoryRepository")
     SUBCASE("updateNote")
     {
         banchoo::note::Note n{.content = "Hello, World!"};
-        auto id = repo.createNote(n);
+        auto id = repo.createMemo(n);
 
         auto original = repo.getNote(id);
         REQUIRE(original);
@@ -56,7 +59,7 @@ TEST_CASE("InMemoryRepository")
     SUBCASE("deleteNote")
     {
         banchoo::note::Note n{.content = "Hello, World!"};
-        auto id = repo.createNote(n);
+        auto id = repo.createMemo(n);
 
         CHECK(repo.deleteNote(id));
 
