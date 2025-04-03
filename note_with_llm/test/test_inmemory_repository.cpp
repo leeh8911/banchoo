@@ -36,6 +36,10 @@ TEST_CASE("InMemoryRepository")
         auto id2 = repo.createNote(n2);
 
         auto all = repo.getAllNotes();
+
+        std::sort(all.begin(), all.end(),
+                  [](const banchoo::note::Note &a, const banchoo::note::Note &b) { return a.id < b.id; });
+
         REQUIRE(all.size() == 2);
         CHECK(all[0].content == "Hello, World!");
         CHECK(all[1].content == "Hello, C++!");
@@ -47,12 +51,18 @@ TEST_CASE("InMemoryRepository")
         n.content = "Hello, World!";
         auto id = repo.createNote(n);
 
-        n.content = "Hello, C++!";
-        CHECK(repo.updateNote(n));
+        {
+            auto result = repo.getNote(id);
+            REQUIRE(result.has_value());
+            result.value().content = "Hello, C++!";
+            CHECK(repo.updateNote(result.value()));
+        }
 
-        auto result = repo.getNote(id);
-        REQUIRE(result.has_value());
-        CHECK(result->content == "Hello, C++!");
+        {
+            auto result = repo.getNote(id);
+            REQUIRE(result.has_value());
+            CHECK(result.value().content == "Hello, C++!");
+        }
     }
 
     SUBCASE("deleteNote")

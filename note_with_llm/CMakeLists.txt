@@ -75,4 +75,6 @@ if (CONFIG_TYPE STREQUAL "test")
 
     target_link_libraries(${PROJECT_TEST} PRIVATE Threads::Threads)
     add_dependencies(${PROJECT_TEST} copy_config)
+    
+    add_test(NAME banchoo_test COMMAND banchoo_test)
 endif()
