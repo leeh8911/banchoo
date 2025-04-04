@@ -18,9 +18,15 @@ if(NOT EXISTS ${CONFIG_SRC})
     message(FATAL_ERROR "Config file '${CONFIG_SRC}' not found!")
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# (옵션) 빌드 타입 명시 – Debug로 하는 게 보통 clang-tidy에서 오류 덜 남
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+endif()
 
 set(SERVER_SRC 
     ${PROJECT_SOURCE_DIR}/src/app/app_factory.cpp 

@@ -8,7 +8,9 @@
 #include "repository/base_repository.hpp"
 
 #include <mutex>
+#include <ranges>
 #include <unordered_map>
+#include <vector>
 
 #include "common/logger.hpp"
 #include "note/note.hpp"
@@ -27,7 +29,7 @@ note::Id InMemoryRepository::createNote(const note::Note &note)
 std::optional<note::Note> InMemoryRepository::getNote(note::Id id) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    auto it = notes_.find(id);
+    auto                        it = notes_.find(id);
     if (it != notes_.end())
     {
         return it->second;
@@ -38,7 +40,7 @@ std::optional<note::Note> InMemoryRepository::getNote(note::Id id) const
 std::vector<note::Note> InMemoryRepository::getAllNotes() const
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<note::Note> all;
+    std::vector<note::Note>     all;
     for (const auto &[_, n] : notes_)
     {
         all.push_back(n);
@@ -49,34 +51,36 @@ std::vector<note::Note> InMemoryRepository::getAllNotes() const
 std::vector<note::Note> InMemoryRepository::getAllMemos() const
 {
     auto all = getAllNotes();
-    all.erase(std::remove_if(all.begin(), all.end(),
-                             [](const note::Note &note) { return note.type != note::NoteType::MEMO; }),
-              all.end());
-
-    return all;
+    auto filtered =
+        all | std::views::filter([](const note::Note &note)
+                                 { return note.type == note::NoteType::MEMO; });
+    std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
+    return filtered_notes;
 }
+
 std::vector<note::Note> InMemoryRepository::getAllTasks() const
 {
     auto all = getAllNotes();
-    all.erase(std::remove_if(all.begin(), all.end(),
-                             [](const note::Note &note) { return note.type != note::NoteType::TASK; }),
-              all.end());
-
+    auto filtered =
+        all | std::views::filter([](const note::Note &note)
+                                 { return note.type == note::NoteType::TASK; });
+    std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
     return all;
 }
 std::vector<note::Note> InMemoryRepository::getAllEvents() const
 {
-    auto all = getAllNotes();
-    all.erase(std::remove_if(all.begin(), all.end(),
-                             [](const note::Note &note) { return note.type != note::NoteType::EVENT; }),
-              all.end());
-
+    auto all      = getAllNotes();
+    auto filtered = all | std::views::filter(
+                              [](const note::Note &note)
+                              { return note.type == note::NoteType::EVENT; });
+    std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
     return all;
 }
+
 bool InMemoryRepository::updateNote(const note::Note &note)
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    auto it = notes_.find(note.id);
+    auto                        it = notes_.find(note.id);
     if (it != notes_.end())
     {
         notes_[note.id] = note;
