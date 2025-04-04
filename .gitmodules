@@ -1,6 +1,0 @@
-[submodule "note_with_llm/third_party/spdlog"]
-	path = note_with_llm/third_party/spdlog
-	url = https://github.com/gabime/spdlog.git
-[submodule "note_with_llm/third_party/doctest"]
-	path = note_with_llm/third_party/doctest
-	url = https://github.com/doctest/doctest.git
