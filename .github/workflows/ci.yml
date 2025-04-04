@@ -13,8 +13,11 @@ jobs:
     name: Clang Format Check & Auto-Fix
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: .  # 루트에 체크아웃되도록 지정
 
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format
@@ -38,27 +41,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format cpplint cmake g++ make
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format cpplint cmake g++ make libboost-all-dev
+
+      - name: CMake configure
+        run: |
+          mkdir -p build
+          cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
 
       - name: Clang-Tidy
         run: |
-          mkdir -p build
-          ls
-          cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
           cp build/compile_commands.json .
           find src -name '*.cpp' | while read file; do
+            echo "🔍 Checking $file"
             clang-tidy "$file" -p build --header-filter=^src/ || exit 1
           done
 
       - name: CPPLint
         run: |
-          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs cpplint --filter=-build/include_subdir,-runtime/int
+          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \
+            | grep -v "third_party" \
+            | xargs cpplint --filter=-build/include_subdir,-runtime/int
 
       - name: Build
         run: |
-          cmake -B build
           cmake --build build
 
       - name: Unit Tests
