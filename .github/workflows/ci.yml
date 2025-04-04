@@ -45,6 +45,7 @@ jobs:
       - name: Clang-Tidy
         run: |
           mkdir -p build
+          ls
           cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
           cp build/compile_commands.json .
           find src -name '*.cpp' | while read file; do
