@@ -15,7 +15,9 @@ Checks: >
 
 WarningsAsErrors: ''
 
-HeaderFilterRegex: 'src/.*|test/.*'
+HeaderFilterRegex: '^(src|test)/.*'
+SystemHeaders: false
+
 
 FormatStyle: file
 CheckOptions:

@@ -12,13 +12,11 @@ AllowShortFunctionsOnASingleLine: InlineOnly
 AlignAfterOpenBracket: Align
 AlignOperands: true
 AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true
+AlignConsecutiveDeclarations: false
 
 AccessModifierOffset: -4
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
-
-# 네임스페이스 안 들여쓰기 제거
 
 NamespaceIndentation: None
 
@@ -29,3 +27,7 @@ SpaceBeforeParens: ControlStatements
 SpacesInParentheses: false
 Cpp11BracedListStyle: true
 ReflowComments: true
+
+# 🔽 Initializer list가 한 줄에 몰리지 않게 강제 줄바꿈
+BinPackArguments: false
+BinPackParameters: false

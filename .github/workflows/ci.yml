@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  format-on-push:
+    name: Clang Format Check & Auto-Fix
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Run clang-format
+        run: |
+          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs clang-format -i
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git diff --cached --quiet || git commit -m "style: auto format by clang-format"
+          git push || echo "No changes to commit"
+
+  pr-check:
+    name: PR Quality Gate
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format cpplint cmake g++ make
+
+      - name: Clang-Tidy
+        run: |
+          mkdir -p build
+          cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cp build/compile_commands.json .
+          find src -name '*.cpp' | while read file; do
+            clang-tidy "$file" -p build --header-filter=^src/ || exit 1
+          done
+
+      - name: CPPLint
+        run: |
+          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs cpplint --filter=-build/include_subdir,-runtime/int
+
+      - name: Build
+        run: |
+          cmake -B build
+          cmake --build build
+
+      - name: Unit Tests
+        run: ./build/banchoo_test

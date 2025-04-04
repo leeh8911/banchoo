@@ -9,7 +9,7 @@
 #include "app/app_factory.hpp"
 #include "common/logger.hpp"
 
-int main()
+int main() noexcept
 {
     std::ifstream ifs("config.json");
     nlohmann::json config = nlohmann::json::parse(ifs);
