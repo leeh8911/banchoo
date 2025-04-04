@@ -53,10 +53,21 @@ jobs:
 
       - name: Clang-Tidy
         run: |
+          mkdir -p build
+          cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
           cp build/compile_commands.json .
           find src -name '*.cpp' | while read file; do
             echo "🔍 Checking $file"
-            clang-tidy "$file" -p build --header-filter=^src/ || exit 1
+            clang-tidy "$file" \
+              -p build \
+              --quiet \
+              --header-filter=^src/ \
+              --extra-arg=-I./src \
+              --extra-arg=-I./third_party \
+              --extra-arg=-I./third_party/spdlog/include \
+              --extra-arg=-I./third_party/nlohmann \
+              --extra-arg=-I./third_party/crow \
+              || exit 1
           done
 
       - name: CPPLint
