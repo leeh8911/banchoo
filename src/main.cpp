@@ -13,7 +13,6 @@
 
 int main() noexcept
 {
-    std::cout << "Banchoo server starting..." << std::endl;
     std::ifstream ifs("config.json");
     nlohmann::json config = nlohmann::json::parse(ifs);
 
