@@ -7,16 +7,17 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include <nlohmann/json.hpp>
 
 namespace banchoo::app
 {
 
-class IApp
+class BaseApp
 {
-  public:
-    virtual ~IApp() = default;
+ public:
+    virtual ~BaseApp() = default;
 
     // 앱 설정 (DI 등)
     virtual void configure(const nlohmann::json &config) = 0;
@@ -45,7 +46,7 @@ class IApp
         return bindaddr_;
     }
 
-  private:
+ private:
     uint32_t port_{0};
     std::string bindaddr_{};
 };

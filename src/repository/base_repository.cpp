@@ -19,7 +19,9 @@ note::Id BaseRepository::createMemo(const note::Note &note)
     new_note.created_at = std::chrono::system_clock::now();
     new_note.updated_at = note.created_at;
 
-    BANCHOO_TRACE("Create memo: id: {}, type: {}, created_at: {}", new_note.id, banchoo::note::to_string(new_note.type),
+    BANCHOO_TRACE("Create memo: id: {}, type: {}, created_at: {}",
+                  new_note.id,
+                  banchoo::note::to_string(new_note.type),
                   banchoo::note::to_string(new_note.created_at));
 
     return this->createNote(new_note);
@@ -37,8 +39,10 @@ note::Id BaseRepository::createTask(const note::Note &note)
 
     new_note.status = note::NoteStatus::TODO;
 
-    BANCHOO_TRACE("Create task: id: {}, type: {}, created_at: {}, status: {}", new_note.id,
-                  banchoo::note::to_string(new_note.type), banchoo::note::to_string(new_note.created_at),
+    BANCHOO_TRACE("Create task: id: {}, type: {}, created_at: {}, status: {}",
+                  new_note.id,
+                  banchoo::note::to_string(new_note.type),
+                  banchoo::note::to_string(new_note.created_at),
                   banchoo::note::to_string(new_note.status.value()));
 
     return this->createNote(new_note);
@@ -54,8 +58,10 @@ note::Id BaseRepository::createEvent(const note::Note &note)
     new_note.created_at = std::chrono::system_clock::now();
     new_note.updated_at = note.created_at;
 
-    BANCHOO_TRACE("Create event: id: {}, type: {}, created_at: {}", new_note.id,
-                  banchoo::note::to_string(new_note.type), banchoo::note::to_string(new_note.created_at));
+    BANCHOO_TRACE("Create event: id: {}, type: {}, created_at: {}",
+                  new_note.id,
+                  banchoo::note::to_string(new_note.type),
+                  banchoo::note::to_string(new_note.created_at));
 
     return this->createNote(new_note);
 }

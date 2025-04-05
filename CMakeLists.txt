@@ -4,8 +4,8 @@ project(banchoo)
 set(PROJECT_SERVER ${PROJECT_NAME}_server)
 
 # 선택 가능한 구성 설정
-set(CONFIG_TYPE "simple" CACHE STRING "Config type (simple, test, runtime)")
-set_property(CACHE CONFIG_TYPE PROPERTY STRINGS simple test runtime)
+set(CONFIG_TYPE "simple" CACHE STRING "Config type (simple, test, api_test)")
+set_property(CACHE CONFIG_TYPE PROPERTY STRINGS simple test api_test)
 message(STATUS "Selected config: ${CONFIG_TYPE}.json")
 
 

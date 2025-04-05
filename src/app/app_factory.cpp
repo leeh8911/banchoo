@@ -7,21 +7,24 @@
 #include "app/app_factory.hpp"
 
 #include <memory>
+#include <string>
 #include <string_view>
 
 #include <nlohmann/json.hpp>
 
-#include "app/app_interface.hpp"
+#include "app/base_app.hpp"
 #include "app/crow_app.hpp"
+#include "common/logger.hpp"
 
 namespace banchoo::app
 {
 
-std::shared_ptr<IApp> AppFactory::create(const nlohmann::json &config)
+std::shared_ptr<BaseApp> AppFactory::create(const nlohmann::json &config)
 {
     auto type = config["type"].get<std::string>();
+    BANCHOO_TRACE("Create {} app", type);
 
-    std::shared_ptr<IApp> app = nullptr;
+    std::shared_ptr<BaseApp> app = nullptr;
 
     if (type == "crow")
     {

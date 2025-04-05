@@ -1,33 +1,45 @@
 BasedOnStyle: LLVM
 Language: Cpp
+
+# 들여쓰기
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 
+# 중괄호 스타일
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortFunctionsOnASingleLine: Empty
 
+# 정렬 관련
 AlignAfterOpenBracket: Align
-AlignOperands: true
-AlignConsecutiveAssignments: true
+AlignOperands: false
+AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 
-AccessModifierOffset: -4
+# 생성자 이니셜라이저 스타일
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 
+# 접근자 오프셋 (Allman과 궁합 맞게)
+AccessModifierOffset: -3
+
+# 네임스페이스
 NamespaceIndentation: None
 
+# include 정렬
 IncludeBlocks: Preserve
 SortIncludes: true
 
+# 공백 및 스타일
 SpaceBeforeParens: ControlStatements
 SpacesInParentheses: false
 Cpp11BracedListStyle: true
 ReflowComments: true
 
-# 🔽 Initializer list가 한 줄에 몰리지 않게 강제 줄바꿈
+# 줄 바꿈 강제
 BinPackArguments: false
 BinPackParameters: false
+InsertNewlineAtEOF: true
+

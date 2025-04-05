@@ -5,7 +5,6 @@
  */
 
 #include "repository/inmemory_repository.hpp"
-#include "repository/base_repository.hpp"
 
 #include <mutex>
 #include <ranges>
@@ -14,6 +13,7 @@
 
 #include "common/logger.hpp"
 #include "note/note.hpp"
+#include "repository/base_repository.hpp"
 
 namespace banchoo::repository
 {
@@ -52,9 +52,9 @@ std::vector<note::Note> InMemoryRepository::getAllNotes() const
 std::vector<note::Note> InMemoryRepository::getAllMemos() const
 {
     auto all = getAllNotes();
-    auto filtered =
-        all | std::views::filter([](const note::Note &note)
-                                 { return note.type == note::NoteType::MEMO; });
+    auto filtered = all |
+        std::views::filter([](const note::Note &note)
+                           { return note.type == note::NoteType::MEMO; });
     std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
     return filtered_notes;
 }
@@ -62,18 +62,18 @@ std::vector<note::Note> InMemoryRepository::getAllMemos() const
 std::vector<note::Note> InMemoryRepository::getAllTasks() const
 {
     auto all = getAllNotes();
-    auto filtered =
-        all | std::views::filter([](const note::Note &note)
-                                 { return note.type == note::NoteType::TASK; });
+    auto filtered = all |
+        std::views::filter([](const note::Note &note)
+                           { return note.type == note::NoteType::TASK; });
     std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
     return all;
 }
 std::vector<note::Note> InMemoryRepository::getAllEvents() const
 {
-    auto all      = getAllNotes();
-    auto filtered = all | std::views::filter(
-                              [](const note::Note &note)
-                              { return note.type == note::NoteType::EVENT; });
+    auto all = getAllNotes();
+    auto filtered = all |
+        std::views::filter([](const note::Note &note)
+                           { return note.type == note::NoteType::EVENT; });
     std::vector<note::Note> filtered_notes(filtered.begin(), filtered.end());
     return all;
 }

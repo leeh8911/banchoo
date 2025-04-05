@@ -7,6 +7,7 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 
 #include "repository/base_repository.hpp"
 
@@ -15,7 +16,7 @@ namespace banchoo::repository
 
 class InMemoryRepository : public BaseRepository
 {
-  public:
+ public:
     note::Id createNote(const note::Note &note) override;
 
     std::optional<note::Note> getNote(note::Id id) const override;
@@ -26,7 +27,7 @@ class InMemoryRepository : public BaseRepository
     bool updateNote(const note::Note &note) override;
     bool deleteNote(note::Id id) override;
 
-  private:
+ private:
     mutable std::mutex mutex_;
     std::unordered_map<note::Id, note::Note> notes_;
     note::Id next_id_ = 1;

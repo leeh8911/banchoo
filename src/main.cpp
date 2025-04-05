@@ -4,6 +4,8 @@
  * Licensed under the MIT License.
  */
 
+#include <iostream>
+
 #include <nlohmann/json.hpp>
 
 #include "app/app_factory.hpp"
@@ -14,10 +16,13 @@ int main() noexcept
     std::ifstream ifs("config.json");
     nlohmann::json config = nlohmann::json::parse(ifs);
 
-    banchoo::Logger::init(config["log_level"]); // 로거 초기화
+    banchoo::Logger::init(config["log_level"],
+                          config["log_file"]); // 로거 초기화
 
+    BANCHOO_TRACE("Banchoo server creating...");
     auto app = banchoo::app::AppFactory::create(config["app"]);
 
+    BANCHOO_TRACE("Banchoo server running...");
     app->run(); // 서버 실행
 
     return 0;
