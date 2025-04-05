@@ -4,13 +4,16 @@
  * Licensed under the MIT License.
  */
 
+#include "app/crow_app.hpp"
+
 #include <crow_all.h>
 
 #include <string>
 
 #include <nlohmann/json.hpp>
 
-#include "app/crow_app.hpp"
+#include "app/base_app.hpp"
+#include "app/crow_cors.hpp"
 #include "note/note.hpp"
 #include "repository/repository_factory.hpp"
 

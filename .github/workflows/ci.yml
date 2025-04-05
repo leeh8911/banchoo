@@ -17,14 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: .  # 루트에 체크아웃되도록 지정
+          path: .
 
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format
 
       - name: Run clang-format
         run: |
-          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs clang-format -i
+          find backend/src backend/test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' | xargs clang-format -i
 
       - name: Commit changes
         run: |
@@ -44,35 +44,36 @@ jobs:
         with:
           path: .
           submodules: true
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format cpplint cmake g++ make libboost-all-dev
 
       - name: CMake configure
         run: |
-          mkdir -p build
-          cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
-          cp build/compile_commands.json .
+          mkdir -p backend/build
+          cmake -B backend/build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
+          cp backend/build/compile_commands.json backend/
 
       - name: Clang-Tidy
         run: |
-          find src -name '*.cpp' | while read file; do
+          find backend/src -name '*.cpp' | while read file; do
             echo "🔍 Checking $file"
             clang-tidy "$file" \
-              -p build \
+              -p backend/build \
               --quiet \
-              --header-filter=^src/ \
+              --header-filter=^backend/src/ \
               || exit 1
           done
 
       - name: CPPLint
         run: |
-          find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \
+          find backend/src backend/test -name '*.cpp' -o -name '*.hpp' -o -name '*.h' \
             | grep -v "third_party" \
             | xargs cpplint --filter=-build/include_subdir,-runtime/int
 
       - name: Build
         run: |
-          cmake --build build
+          cmake --build backend/build
 
       - name: Unit Tests
-        run: ./build/banchoo_test
+        run: ./backend/build/banchoo_test

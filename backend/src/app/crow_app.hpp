@@ -12,6 +12,7 @@
 #include <nlohmann/json.hpp>
 
 #include "app/base_app.hpp"
+#include "app/crow_cors.hpp"
 #include "repository/base_repository.hpp"
 
 namespace banchoo::app
@@ -24,7 +25,7 @@ class CrowApp : public BaseApp
     void run() override;
 
  private:
-    crow::SimpleApp app_;
+    crow::App<Cors> app_;
     std::shared_ptr<repository::BaseRepository> repo_;
 };
 

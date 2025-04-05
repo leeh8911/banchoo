@@ -16,8 +16,9 @@ int main() noexcept
     std::ifstream ifs("config.json");
     nlohmann::json config = nlohmann::json::parse(ifs);
 
+    BANCHOO_TRACE("Banchoo logger creating...");
     banchoo::Logger::init(config["log_level"],
-                          config["log_file"]); // 로거 초기화
+                          config.value("log_file", "")); // 로거 초기화
 
     BANCHOO_TRACE("Banchoo server creating...");
     auto app = banchoo::app::AppFactory::create(config["app"]);

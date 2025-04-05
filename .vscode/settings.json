@@ -92,7 +92,7 @@
     "C_Cpp.clang_tidy.enabled": true,
     "C_Cpp.clang_tidy.path": "clang-tidy",
     "C_Cpp.codeAnalysis.runAutomatically": true,
-    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/backend/build/compile_commands.json",
     "clangd.arguments": [
         "--compile-commands-dir=build"
     ],

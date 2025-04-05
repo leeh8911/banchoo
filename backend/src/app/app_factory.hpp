@@ -10,8 +10,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include "app/base_app.hpp"
-#include "app/crow_app.hpp"
+#include "base_app.hpp"
+#include "crow_app.hpp"
 
 namespace banchoo::app
 {
