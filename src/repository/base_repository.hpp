@@ -14,7 +14,7 @@ namespace banchoo::repository
 {
 class BaseRepository
 {
-  public:
+ public:
     virtual ~BaseRepository() = default;
 
     virtual note::Id createNote(const note::Note &note) = 0;
@@ -31,10 +31,10 @@ class BaseRepository
     virtual bool updateNote(const note::Note &note) = 0;
     virtual bool deleteNote(note::Id id) = 0;
 
-  protected:
+ protected:
     note::Id newId();
 
-  private:
+ private:
     note::Id next_id_ = 1;
 };
 } // namespace banchoo::repository

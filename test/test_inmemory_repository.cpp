@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2024 Lee Sangwon
+ * This file is part of the Banchoo Project.
+ * Licensed under the MIT License.
+ */
+
 #include <doctest/doctest.h>
 
 #include "common/logger.hpp"
@@ -13,7 +19,7 @@ TEST_CASE("InMemoryRepository")
     {
         banchoo::note::Note n{.content = "Hello, World!"};
         auto id = repo.createMemo(n);
-        CHECK(id == 1);
+        CHECK_EQ(id, 1);
     }
 
     SUBCASE("getNote")
@@ -23,7 +29,7 @@ TEST_CASE("InMemoryRepository")
 
         auto result = repo.getNote(id);
         REQUIRE(result); // optional이 값 있는지 확인
-        CHECK(result->content == "Hello, World!");
+        CHECK_EQ(result->content, "Hello, World!");
     }
 
     SUBCASE("getAllNotes")
@@ -36,9 +42,11 @@ TEST_CASE("InMemoryRepository")
         auto all = repo.getAllNotes();
         REQUIRE(all.size() == 2);
 
-        std::sort(all.begin(), all.end(), [](auto &a, auto &b) { return a.id < b.id; });
-        CHECK(all[0].content == "Hello, World!");
-        CHECK(all[1].content == "Hello, C++!");
+        std::sort(all.begin(),
+                  all.end(),
+                  [](auto &a, auto &b) { return a.id < b.id; });
+        CHECK_EQ(all[0].content, "Hello, World!");
+        CHECK_EQ(all[1].content, "Hello, C++!");
     }
 
     SUBCASE("updateNote")
@@ -53,7 +61,7 @@ TEST_CASE("InMemoryRepository")
 
         auto updated = repo.getNote(id);
         REQUIRE(updated);
-        CHECK(updated->content == "Hello, C++!");
+        CHECK_EQ(updated->content, "Hello, C++!");
     }
 
     SUBCASE("deleteNote")

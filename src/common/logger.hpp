@@ -5,12 +5,14 @@
  */
 #pragma once
 
-#include <memory>
-#include <string>
-#include <unordered_map>
-
+#include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
+
+#include <memory>
+#include <optional>
+#include <string>
+#include <unordered_map>
 
 namespace banchoo
 {
@@ -25,15 +27,28 @@ static const std::unordered_map<std::string, spdlog::level::level_enum>
 
 class Logger
 {
-public:
-    static void init(const std::string &level = "info")
+ public:
+    static void init(const std::string &level = "info",
+                     const std::optional<std::string> &log_file = std::nullopt)
     {
         if (!logger)
         {
-            logger = spdlog::stdout_color_mt("banchoo");
-            logger->set_pattern(
-                "(\%Y-\%m-\%d \%H:\%M:\%S) BANCHOO - [%^%-8l%$] (%s:%#) %v");
-            logger->set_level(LOG_LEVELS.at(level));
+            std::shared_ptr<spdlog::logger> l;
+
+            if (log_file.has_value())
+            {
+                l = spdlog::basic_logger_mt("banchoo", log_file.value());
+            }
+            else
+            {
+                l = spdlog::stdout_color_mt("banchoo");
+            }
+
+            l->set_pattern(
+                "(%Y-%m-%d %H:%M:%S) BANCHOO - [%^%-8l%$] (%s:%#) %v");
+            l->set_level(LOG_LEVELS.at(level));
+
+            logger = l;
         }
     }
 
@@ -46,7 +61,7 @@ public:
         return logger;
     }
 
-private:
+ private:
     static inline std::shared_ptr<spdlog::logger> logger = nullptr;
 };
 

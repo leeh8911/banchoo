@@ -2,7 +2,7 @@
  * Copyright (c) 2024 Lee Sangwon
  * This file is part of the Banchoo Project.
  * Licensed under the MIT License.
- */                                                                                                                    \
+ */
 #pragma once
 
 #include <memory>
@@ -16,7 +16,7 @@ namespace banchoo::repository
 {
 class RepositoryFactory
 {
-  public:
+ public:
     static std::shared_ptr<BaseRepository> create(const nlohmann::json &config);
 };
 } // namespace banchoo::repository

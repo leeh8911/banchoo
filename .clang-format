@@ -7,14 +7,14 @@ UseTab: Never
 BreakBeforeBraces: Allman
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortFunctionsOnASingleLine: Empty
 
 AlignAfterOpenBracket: Align
-AlignOperands: true
-AlignConsecutiveAssignments: true
+AlignOperands: false
+AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 
-AccessModifierOffset: -4
+AccessModifierOffset: -3
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
 

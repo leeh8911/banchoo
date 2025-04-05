@@ -10,14 +10,14 @@
 
 #include <nlohmann/json.hpp>
 
-#include "app/app_interface.hpp"
+#include "app/base_app.hpp"
 #include "app/crow_app.hpp"
 
 namespace banchoo::app
 {
 class AppFactory
 {
-  public:
-    static std::shared_ptr<IApp> create(const nlohmann::json &config);
+ public:
+    static std::shared_ptr<BaseApp> create(const nlohmann::json &config);
 };
 } // namespace banchoo::app

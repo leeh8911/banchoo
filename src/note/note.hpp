@@ -84,4 +84,12 @@ inline std::string to_string(const TimePoint &tp)
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &tm);
     return std::string(buffer);
 }
+// 예시용 포맷: ISO 8601
+inline TimePoint parse_time(const std::string &s)
+{
+    std::istringstream ss(s);
+    std::tm t = {};
+    ss >> std::get_time(&t, "%Y-%m-%dT%H:%M:%S"); // ISO8601
+    return std::chrono::system_clock::from_time_t(std::mktime(&t));
+}
 } // namespace banchoo::note

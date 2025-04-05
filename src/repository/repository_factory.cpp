@@ -7,6 +7,7 @@
 #include "repository/repository_factory.hpp"
 
 #include <memory>
+#include <string>
 #include <string_view>
 
 #include <nlohmann/json.hpp>
@@ -17,7 +18,8 @@
 namespace banchoo::repository
 {
 
-std::shared_ptr<BaseRepository> RepositoryFactory::create(const nlohmann::json &config)
+std::shared_ptr<BaseRepository>
+RepositoryFactory::create(const nlohmann::json &config)
 {
     auto type = config["type"].get<std::string>();
 
