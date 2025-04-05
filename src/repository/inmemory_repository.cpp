@@ -5,7 +5,6 @@
  */
 
 #include "repository/inmemory_repository.hpp"
-#include "repository/base_repository.hpp"
 
 #include <mutex>
 #include <ranges>
@@ -14,6 +13,7 @@
 
 #include "common/logger.hpp"
 #include "note/note.hpp"
+#include "repository/base_repository.hpp"
 
 namespace banchoo::repository
 {

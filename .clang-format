@@ -31,3 +31,5 @@ ReflowComments: true
 # 🔽 Initializer list가 한 줄에 몰리지 않게 강제 줄바꿈
 BinPackArguments: false
 BinPackParameters: false
+
+InsertNewlineAtEOF: true
