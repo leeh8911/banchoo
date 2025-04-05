@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🛠 Build",
+            "type": "shell",
+            "command": "cmake --build build",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "🧼 Format Check (clang-format)",
+            "type": "shell",
+            "command": "clang-format --Werror $(find src test -name '*.cpp' -o -name '*.hpp' -o -name '*.h')",
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "🧠 Lint Check (clang-tidy)",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "'while IFS= read -r file; do echo 🔍 Checking $file; clang-tidy \"$file\" -p build --header-filter=^src/ --extra-arg=-I./src || true; done < <(find src -name \"*.cpp\")'"
+            ],
+            "group": "test",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "✅ Run Tests (doctest)",
+            "type": "shell",
+            "command": "./build/banchoo_test",
+            "group": "test",
+            "dependsOn": [
+                "🛠 Build"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "🧽 Clear",
+            "type": "shell",
+            "command": "rm -rf build/*",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}
