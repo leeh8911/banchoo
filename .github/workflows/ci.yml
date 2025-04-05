@@ -51,7 +51,7 @@ jobs:
       - name: CMake configure
         run: |
           mkdir -p backend/build
-          cmake -B backend/build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
+          cmake -S backend -B backend/build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONFIG_TYPE=test
           cp backend/build/compile_commands.json backend/
 
       - name: Clang-Tidy
