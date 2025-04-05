@@ -3,13 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/src",
-                "${workspaceFolder}/third_party/**"
+                "${workspaceFolder}/backend/src",
+                "${workspaceFolder}/backend/third_party/**"
             ],
             "browse": {
                 "path": [
-                    "${workspaceFolder}/src",
-                    "${workspaceFolder}/third_party/**"
+                    "${workspaceFolder}/backend/src",
+                    "${workspaceFolder}/backend/third_party/**"
                 ]
             },
             "defines": [],
