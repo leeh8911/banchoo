@@ -4,8 +4,8 @@ project(banchoo)
 set(PROJECT_SERVER ${PROJECT_NAME}_server)
 
 # 선택 가능한 구성 설정
-set(CONFIG_TYPE "simple" CACHE STRING "Config type (simple, test, api_test)")
-set_property(CACHE CONFIG_TYPE PROPERTY STRINGS simple test api_test)
+set(CONFIG_TYPE "simple" CACHE STRING "Config type (simple, test, api_test, release)")
+set_property(CACHE CONFIG_TYPE PROPERTY STRINGS simple test api_test, release)
 message(STATUS "Selected config: ${CONFIG_TYPE}.json")
 
 
@@ -28,10 +28,13 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
 
+add_subdirectory(third_party/sqlite)
+
 set(SERVER_SRC 
     ${PROJECT_SOURCE_DIR}/src/app/app_factory.cpp 
     ${PROJECT_SOURCE_DIR}/src/app/crow_app.cpp 
     ${PROJECT_SOURCE_DIR}/src/repository/inmemory_repository.cpp
+    ${PROJECT_SOURCE_DIR}/src/repository/sqlite_repository.cpp
     ${PROJECT_SOURCE_DIR}/src/repository/base_repository.cpp
     ${PROJECT_SOURCE_DIR}/src/repository/repository_factory.cpp
 )
@@ -44,7 +47,7 @@ add_executable(${PROJECT_SERVER}
 
 # pthread (Crow에서 필요함)
 find_package(Threads REQUIRED)
-target_link_libraries(${PROJECT_SERVER} PRIVATE Threads::Threads)
+target_link_libraries(${PROJECT_SERVER} PRIVATE Threads::Threads sqlite3)
 
 # include 경로 설정
 target_include_directories(${PROJECT_SERVER}
@@ -52,6 +55,7 @@ target_include_directories(${PROJECT_SERVER}
         ${PROJECT_SOURCE_DIR}
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_SOURCE_DIR}/third_party/
+        ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
         ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
 )
 

@@ -12,11 +12,14 @@
 #include <vector>
 
 #include "common/logger.hpp"
+#include "inmemory_repository.hpp"
 #include "note/note.hpp"
 #include "repository/base_repository.hpp"
 
 namespace banchoo::repository
 {
+
+InMemoryRepository::InMemoryRepository(const nlohmann::json &config) {}
 
 note::Id InMemoryRepository::createNote(const note::Note &note)
 {

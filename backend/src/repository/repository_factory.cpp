@@ -14,6 +14,7 @@
 
 #include "repository/base_repository.hpp"
 #include "repository/inmemory_repository.hpp"
+#include "repository/sqlite_repository.hpp"
 
 namespace banchoo::repository
 {
@@ -26,6 +27,10 @@ RepositoryFactory::create(const nlohmann::json &config)
     if (type == "inmemory")
     {
         return std::make_shared<InMemoryRepository>();
+    }
+    if (type == "sqlite")
+    {
+        return std::make_shared<SqliteRepository>();
     }
     else
     {

@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 #include "repository/base_repository.hpp"
 
 namespace banchoo::repository
@@ -17,6 +19,8 @@ namespace banchoo::repository
 class InMemoryRepository : public BaseRepository
 {
  public:
+    explicit InMemoryRepository(const nlohmann::json &config);
+
     note::Id createNote(const note::Note &note) override;
 
     std::optional<note::Note> getNote(note::Id id) const override;
@@ -30,7 +34,6 @@ class InMemoryRepository : public BaseRepository
  private:
     mutable std::mutex mutex_;
     std::unordered_map<note::Id, note::Note> notes_;
-    note::Id next_id_ = 1;
 };
 
 } // namespace banchoo::repository
