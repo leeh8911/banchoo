@@ -5,11 +5,13 @@
  */
 #pragma once
 
-#include <sqlite.h>
-
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include <nlohmann/json.hpp>
+
+#include <sqlite/sqlite3.h>
 
 #include "repository/base_repository.hpp"
 
@@ -20,6 +22,7 @@ class SqliteRepository : public BaseRepository
 {
  public:
     explicit SqliteRepository(const nlohmann::json &config);
+    ~SqliteRepository() override;
     note::Id createNote(const note::Note &note) override;
 
     std::optional<note::Note> getNote(note::Id id) const override;
@@ -33,7 +36,8 @@ class SqliteRepository : public BaseRepository
  private:
     sqlite3 *db_;
     void initializeDatabase() const;
-    std::vector<note::Note> queryNotesByType(const std::string &type) const;
+    std::vector<note::Note> queryNotesByType(note::NoteType type) const;
+    note::Note extractNote(sqlite3_stmt *stmt) const;
 };
 
 } // namespace banchoo::repository

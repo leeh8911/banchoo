@@ -56,7 +56,6 @@ target_include_directories(${PROJECT_SERVER}
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_SOURCE_DIR}/third_party/
         ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
-        ${PROJECT_SOURCE_DIR}/third_party/spdlog/include
 )
 
 configure_file(${CONFIG_SRC} ${CONFIG_DST} COPYONLY)
@@ -84,7 +83,7 @@ if (CONFIG_TYPE STREQUAL "test")
             ${PROJECT_SOURCE_DIR}/third_party/doctest
     )
 
-    target_link_libraries(${PROJECT_TEST} PRIVATE Threads::Threads)
+    target_link_libraries(${PROJECT_TEST} PRIVATE Threads::Threads sqlite3)
     add_dependencies(${PROJECT_TEST} copy_config)
     
     add_test(NAME banchoo_test COMMAND banchoo_test)

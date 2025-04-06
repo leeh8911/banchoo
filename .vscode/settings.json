@@ -83,7 +83,8 @@
         "unordered_set": "cpp",
         "regex": "cpp",
         "bitset": "cpp",
-        "expected": "cpp"
+        "expected": "cpp",
+        "filesystem": "cpp"
     },
     "CMake: Test Explorer": true,
     "CMake: Build Directory": "${workspaceFolder}/build",

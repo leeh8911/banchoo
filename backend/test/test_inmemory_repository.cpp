@@ -6,6 +6,8 @@
 
 #include <doctest/doctest.h>
 
+#include <nlohmann/json.hpp>
+
 #include "common/logger.hpp"
 #include "repository/inmemory_repository.hpp"
 
@@ -13,7 +15,7 @@ TEST_CASE("InMemoryRepository")
 {
     banchoo::Logger::init("trace"); // 로거 초기화
 
-    banchoo::repository::InMemoryRepository repo;
+    banchoo::repository::InMemoryRepository repo(nlohmann::json{});
 
     SUBCASE("createNote")
     {

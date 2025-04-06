@@ -26,11 +26,11 @@ RepositoryFactory::create(const nlohmann::json &config)
 
     if (type == "inmemory")
     {
-        return std::make_shared<InMemoryRepository>();
+        return std::make_shared<InMemoryRepository>(config);
     }
     if (type == "sqlite")
     {
-        return std::make_shared<SqliteRepository>();
+        return std::make_shared<SqliteRepository>(config);
     }
     else
     {

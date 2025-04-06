@@ -7,7 +7,7 @@
         "bindaddr": "0.0.0.0",
         "repository": {
             "type": "sqlite",
-            "db_file": "db/note.db"
+            "db_path": "data/banchoo.sqlite"
         }
     }
 }
