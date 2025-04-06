@@ -1,0 +1,13 @@
+{
+    "log_level": "trace",
+    "log_file": "log/test.log",
+    "app": {
+        "type": "crow",
+        "port": 18080,
+        "bindaddr": "0.0.0.0",
+        "repository": {
+            "type": "sqlite",
+            "db_path": "data/banchoo.sqlite"
+        }
+    }
+}
