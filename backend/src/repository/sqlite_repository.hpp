@@ -13,7 +13,9 @@
 
 #include <sqlite/sqlite3.h>
 
+#include "note/note.hpp"
 #include "repository/base_repository.hpp"
+#include "repository/sqlite_handler.hpp"
 
 namespace banchoo::repository
 {
@@ -34,7 +36,7 @@ class SqliteRepository : public BaseRepository
     bool deleteNote(note::Id id) override;
 
  private:
-    sqlite3 *db_;
+    std::unique_ptr<SqliteHandler> sqlite_handler{nullptr};
     void initializeDatabase() const;
     std::vector<note::Note> queryNotesByType(note::NoteType type) const;
     note::Note extractNote(sqlite3_stmt *stmt) const;

@@ -43,6 +43,8 @@ struct Note
     // Event info
     std::optional<TimePoint> start_date;
     std::optional<TimePoint> end_date;
+
+    std::vector<std::string> tags;
 };
 
 inline std::string to_string(NoteType type)
