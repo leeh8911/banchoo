@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface Task {
-    id: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    status: 'todo' | 'done';
-}
+import { Task } from '@/types/note';
 
 const extractTags = (text: string): string[] => {
     const matches = text.match(/#\w+/g);
@@ -33,7 +26,6 @@ const TasksPage = () => {
                 ? {
                     ...task,
                     status: task.status === 'todo' ? 'done' : 'todo',
-                    updatedAt: new Date().toISOString(),
                 }
                 : task
         );

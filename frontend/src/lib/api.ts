@@ -1,5 +1,3 @@
-// frontend/src/lib/api.ts
-
 export interface Memo {
     id: number;
     content: string;

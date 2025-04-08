@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Event } from '@/types/Event';
 
 interface Transaction {
     type: 'insert' | 'space' | 'newline';

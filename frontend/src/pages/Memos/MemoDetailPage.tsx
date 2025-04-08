@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Memo } from './types';
+import { Memo } from '@/types/note';
+
 
 const MemoDetailPage = () => {
     const { id } = useParams<{ id: string }>();

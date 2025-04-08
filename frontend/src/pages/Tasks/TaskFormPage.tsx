@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Task } from '@/types/note';
 
-interface Transaction {
-    type: 'insert' | 'space' | 'newline';
-    value?: string;
-    index: number;
-}
 
 const TaskFormPage = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);

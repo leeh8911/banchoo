@@ -1,103 +1,62 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// 트랜잭션 타입 정의
-interface Transaction {
-    type: 'insert' | 'space' | 'newline';
-    value?: string;
-    index: number;
-}
+import { Memo } from '@/types/note';
+import { useTransactionText } from '@/hooks/useTransactionText';
+import { createMemo } from '@/lib/api';
 
 const MemoFormPage = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [content, setContent] = useState('');
-    const [memoId] = useState(() => crypto.randomUUID());
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const navigate = useNavigate();
+    const {
+        content,
+        setContent,
+        transactions,
+        textareaRef,
+        contentRef,
+        transactionsRef,
+        handleKeyDown,
+        handleChange,
+        reconstruct,
+    } = useTransactionText();
 
-    // 커서 위치 기반으로 트랜잭션 기록
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        const cursor = textareaRef.current?.selectionStart ?? 0;
-
-        if (e.key === ' ' || e.key === 'Enter') {
-            const type = e.key === ' ' ? 'space' : 'newline';
-            if (content.length > 0) {
-                setTransactions((prev) => [
-                    ...prev,
-                    { type, index: cursor },
-                ]);
-            }
-        }
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const cursor = textareaRef.current?.selectionStart ?? 0;
-        const newContent = e.target.value;
-
-        // 변경된 글자만 추출
-        if (newContent.length > content.length) {
-            const added = newContent.slice(content.length);
-            setTransactions((prev) => [
-                ...prev,
-                { type: 'insert', value: added, index: cursor - added.length },
-            ]);
-        }
-
-        setContent(newContent);
-    };
-
-    const commit = () => {
-        let committedTransactions = [...transactions];
+    const commit = async () => {
+        const currentContent = contentRef.current;
+        let committedTransactions = [...transactionsRef.current];
 
         const reconstructedText = reconstruct(committedTransactions);
 
         // 누락된 입력 계산
-        if (reconstructedText !== content) {
+        if (reconstructedText !== currentContent) {
             committedTransactions = [];
-            for (let i = 0; i < content.length; i++) {
+            for (let i = 0; i < currentContent.length; i++) {
                 committedTransactions.push({
                     type: 'insert',
-                    value: content[i],
+                    value: currentContent[i],
                     index: i,
                 });
             }
         }
 
         const text = reconstruct(committedTransactions);
+
         if (!text.trim() || text.length < 2) return;
 
-        const newMemo = {
-            id: memoId,
-            content: text,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        };
-
-        const existing = JSON.parse(localStorage.getItem('memos') || '[]');
-        if (existing.find((m: any) => m.id === memoId)) return;
-        localStorage.setItem('memos', JSON.stringify([...existing, newMemo]));
+        try {
+            await createMemo(text); // 백엔드로 메모 전송
+            console.log("memo saved to backend");
+        } catch (error) {
+            console.error("failed to save memo", error);
+        }
     };
 
-    // 언마운트 시점에 commit
+    // 언마운트 시점에만 저장하도록 수정
     useEffect(() => {
+        const handleBeforeUnload = () => commit();
+        window.addEventListener('beforeunload', handleBeforeUnload);
         return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
             commit();
         };
-    }, [transactions, content]);
-
-    const reconstruct = (txs: Transaction[]) => {
-        let result = '';
-        for (const tx of txs) {
-            if (tx.type === 'insert' && tx.value) {
-                result = result.slice(0, tx.index) + tx.value + result.slice(tx.index);
-            } else if (tx.type === 'space') {
-                result = result.slice(0, tx.index) + ' ' + result.slice(tx.index);
-            } else if (tx.type === 'newline') {
-                result = result.slice(0, tx.index) + '\n' + result.slice(tx.index);
-            }
-        }
-        return result;
-    };
+    }, []);
 
     return (
         <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white flex flex-col">

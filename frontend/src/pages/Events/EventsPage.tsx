@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface Event {
-    id: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    startDate?: string;
-    endDate?: string;
-}
+import { Event } from '@/types/Event';
 
 const EventsPage = () => {
     const [events, setEvents] = useState<Event[]>([]);

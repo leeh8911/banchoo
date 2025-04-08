@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Memo } from './types';
+import { Memo } from '@/types/note';
+import { fetchMemos } from '@/lib/api';
 
 const MemosPage = () => {
     const [memos, setMemos] = useState<Memo[]>([]);
@@ -13,12 +14,16 @@ const MemosPage = () => {
         loadMemos();
     }, []);
 
-    const loadMemos = () => {
-        const saved = JSON.parse(localStorage.getItem('memos') || '[]') as Memo[];
-        const sorted = saved.sort(
-            (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-        setMemos(sorted);
+    const loadMemos = async () => {
+        try {
+            const result = await fetchMemos(); // ✅ 서버에서 불러오기
+            const sorted = result.sort(
+                (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+            );
+            setMemos(sorted);
+        } catch (error) {
+            console.error('메모 불러오기 실패', error);
+        }
     };
 
     const toggleSelection = (id: string) => {
